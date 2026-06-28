@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVLA Ghana - Big Data Analytics & Insights Hub</title>
+    <meta name="description" content="DVLA Ghana Drivers Licence and Vehicle Registration Big Data Dashboard. Designed for processing, analysing, and reporting administrative data.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+    <div class="dashboard-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="#" class="sidebar-brand">
+                <img src="DVLA Ghana logo.png" alt="DVLA Ghana Logo" class="brand-logo-img" style="width: 38px; height: 38px; object-fit: contain; flex-shrink: 0;">
+                <div class="brand-info">
+                    <h1>DVLA Ghana</h1>
+                    <span>Big Data Hub</span>
+                </div>
+            </a>
+            
+            <nav class="sidebar-menu">
+                <div class="nav-item active" data-tab="overview" id="nav-overview">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
+                    </svg>
+                    <span>Overview</span>
+                </div>
+                <div class="nav-item" data-tab="drivers" id="nav-drivers">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <span>Drivers Licensing</span>
+                </div>
+                <div class="nav-item" data-tab="vehicles" id="nav-vehicles">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                    </svg>
+                    <span>Vehicle Registrations</span>
+                </div>
+                <div class="nav-item" data-tab="lab" id="nav-lab">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                    <span>Big Data Lab</span>
+                </div>
+                <div class="nav-item" data-tab="efficiency" id="nav-efficiency">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span>System Efficiency</span>
+                </div>
+                <div class="nav-item" data-tab="reports" id="nav-reports">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Reports & Exports</span>
+                </div>
+                <div class="nav-item" data-tab="chat" id="nav-chat">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <span>Data Chat Assistant</span>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <!-- Albert's Profile Context -->
+                <div class="user-profile">
+                    <div class="user-avatar">AW</div>
+                    <div class="user-info">
+                        <h4>Albert Wotorgbui</h4>
+                        <p>Deputy Director, Research</p>
+                    </div>
+                </div>
+                
+                <a href="../index.html" class="btn-secondary" id="back-portfolio">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Back to Portfolio</span>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Dashboard View -->
+        <main class="main-content">
+            
+            <!-- Top Header Row -->
+            <header class="header-row">
+                <div class="header-title">
+                    <h2 id="current-tab-title">Overview Dashboard</h2>
+                    <p id="current-tab-desc">DVLA Ghana administrative registration and licence metrics aggregation portal.</p>
+                </div>
+                <div class="header-actions">
+                    <div style="text-align: right;">
+                        <span id="live-time" style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);"></span>
+                        <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Accra, Ghana Time</div>
+                    </div>
+                    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme">
+                        <!-- Sun Icon -->
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M14.25 12a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                        </svg>
+                        <!-- Moon Icon -->
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Summary KPI Cards -->
+            <section class="kpi-row">
+                <div class="kpi-card" id="kpi-drivers">
+                    <div class="kpi-header">
+                        <span>Drivers Licences</span>
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 014 0m-3 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="val-drivers">0</div>
+                    <div class="kpi-footer">
+                        <span class="kpi-trend up">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="10" height="10">
+                                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-8.293 8.293a1 1 0 01-1.414-1.414L14.586 7H12z" clip-rule="evenodd" />
+                            </svg>
+                            12.4%
+                        </span>
+                        <span>vs previous period</span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card" id="kpi-vehicles">
+                    <div class="kpi-header">
+                        <span>Vehicles Registered</span>
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="val-vehicles">0</div>
+                    <div class="kpi-footer">
+                        <span class="kpi-trend up">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="10" height="10">
+                                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-8.293 8.293a1 1 0 01-1.414-1.414L14.586 7H12z" clip-rule="evenodd" />
+                            </svg>
+                            8.9%
+                        </span>
+                        <span>vs previous period</span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card" id="kpi-revenue">
+                    <div class="kpi-header">
+                        <span>Total Revenue</span>
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="val-revenue">GHS 0</div>
+                    <div class="kpi-footer">
+                        <span class="kpi-trend up">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="10" height="10">
+                                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-8.293 8.293a1 1 0 01-1.414-1.414L14.586 7H12z" clip-rule="evenodd" />
+                            </svg>
+                            15.1%
+                        </span>
+                        <span>vs previous year</span>
+                    </div>
+                </div>
+                
+                <div class="kpi-card" id="kpi-evs">
+                    <div class="kpi-header">
+                        <span>Electric Vehicles (EV)</span>
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="kpi-value" id="val-evs">0</div>
+                    <div class="kpi-footer">
+                        <span class="kpi-trend up">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="10" height="10">
+                                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-8.293 8.293a1 1 0 01-1.414-1.414L14.586 7H12z" clip-rule="evenodd" />
+                            </svg>
+                            34.8%
+                        </span>
+                        <span>ev adoption rate</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- OVERVIEW TAB -->
+            <div class="tab-panel active" id="tab-overview">
+                <div class="dashboard-grid-2">
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Registration Trends</h3>
+                                <p>Annual growth of licences and vehicle registrations</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chart-trends"></div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Regional Distribution</h3>
+                                <p>Transaction volume per administrative region</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chart-regions"></div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-title-wrap">
+                        <div class="card-title">
+                            <h3>Real-Time Registration Stream</h3>
+                            <p>Simulating live incoming licence and vehicle requests</p>
+                        </div>
+                        <span class="badge badge-approved" id="stream-indicator">● LIVE STREAM</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Region</th>
+                                    <th>Details</th>
+                                    <th>Fees (GHS)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stream-table-body">
+                                <!-- Streamed rows will inject here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DRIVERS LICENSING TAB -->
+            <div class="tab-panel" id="tab-drivers">
+                <div class="dashboard-grid-2">
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Drivers Age Distribution</h3>
+                                <p>Demographic categorisation of active licence holders</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chart-driver-ages"></div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Licence Classification</h3>
+                                <p>Total distribution of active drivers by licence class</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chart-driver-classes"></div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-title-wrap">
+                        <div class="card-title">
+                            <h3>Licence Classifications Reference Guide</h3>
+                            <p>Scope of operation per licence class under DVLA regulations</p>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="licence-reference-table">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Scope of Description</th>
+                                    <th>Age Prerequisite</th>
+                                    <th>Base Issuance Fee</th>
+                                    <th>Average Processing Speed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="mono-id">Class A</span></td>
+                                    <td>Motorcycles, motor tricycles (Pragya/Aboboyaa), and light engines.</td>
+                                    <td>18 years +</td>
+                                    <td>GHS 120</td>
+                                    <td>3 Business Days</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="mono-id">Class B</span></td>
+                                    <td>Private cars and light utility transport (Up to 8 passengers).</td>
+                                    <td>18 years +</td>
+                                    <td>GHS 250</td>
+                                    <td>5 Business Days</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="mono-id">Class C</span></td>
+                                    <td>Commercial vehicles, heavy passenger buses, and taxis.</td>
+                                    <td>21 years +</td>
+                                    <td>GHS 380</td>
+                                    <td>5 Business Days</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="mono-id">Class D</span></td>
+                                    <td>Heavy duty single-body trucks, tankers and buses.</td>
+                                    <td>25 years +</td>
+                                    <td>GHS 380</td>
+                                    <td>7 Business Days</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="mono-id">Class E</span></td>
+                                    <td>Agricultural machinery, industrial tractors, forklifts, and earthmovers.</td>
+                                    <td>21 years +</td>
+                                    <td>GHS 380</td>
+                                    <td>10 Business Days</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="mono-id">Class F</span></td>
+                                    <td>Specialized heavy transport, articulated vehicles with trailers.</td>
+                                    <td>25 years +</td>
+                                    <td>GHS 380</td>
+                                    <td>10 Business Days</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- VEHICLES TAB -->
+            <div class="tab-panel" id="tab-vehicles">
+                <div class="dashboard-grid-2">
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Fuel Type Distribution</h3>
+                                <p>Tracking hybrid and electric vehicle transition metrics</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chart-fuel-types"></div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Vehicle Type Distribution</h3>
+                                <p>Classification of registered motor vehicles</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chart-vehicle-types"></div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid-2">
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Top Brand Registrations</h3>
+                                <p>Most registered automobile brands in the database</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chart-vehicle-brands"></div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Recent Vehicle Approvals</h3>
+                                <p>Last 5 vehicle registration transactions approved</p>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Registration ID</th>
+                                        <th>Brand</th>
+                                        <th>Type</th>
+                                        <th>Fuel Type</th>
+                                        <th>Region</th>
+                                        <th>Fee</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-vehicles-tbody">
+                                    <!-- Populated in script -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BIG DATA LAB TAB -->
+            <div class="tab-panel" id="tab-lab">
+                <div class="query-workspace">
+                    <div class="dashboard-card">
+                        <div class="card-title">
+                            <h3>Big Data Query Console & Map-Reduce Laboratory</h3>
+                            <p>Query over 2,500 active records in memory. Analyze results and explore map-reduce stages.</p>
+                        </div>
+                        
+                        <div class="query-input-panel">
+                            <input type="text" id="nl-query-input" class="query-input" placeholder="e.g. Find total revenue in Ashanti for 2025...">
+                            <button id="run-query-btn" class="btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Run Query</span>
+                            </button>
+                        </div>
+                        
+                        <div class="chat-suggestions">
+                            <button class="suggestion-btn" data-query="Count vehicle registrations in Greater Accra">Count registrations in Accra</button>
+                            <button class="suggestion-btn" data-query="Show fuel type distribution for 2025">Fuel type distribution 2025</button>
+                            <button class="suggestion-btn" data-query="Find average age of drivers in Volta region">Average driver age in Volta</button>
+                            <button class="suggestion-btn" data-query="Find total revenue collected in Ashanti in 2024">Total revenue in Ashanti (2024)</button>
+                            <button class="suggestion-btn" data-query="Show Class B license registrations in Western region">Class B licenses in Western</button>
+                        </div>
+                    </div>
+                    
+                    <div class="query-layout">
+                        <!-- Terminal execution console -->
+                        <div class="terminal-console" id="console-terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot dot-red"></span>
+                                <span class="terminal-dot dot-yellow"></span>
+                                <span class="terminal-dot dot-green"></span>
+                                <span class="terminal-title">dvla-mapreduce-engine --host localhost</span>
+                            </div>
+                            <div class="console-line system">> Engine idle. Awaiting query execution inputs...</div>
+                        </div>
+                        
+                        <!-- Query Results Card -->
+                        <div class="dashboard-card" style="height: 380px; overflow-y: auto;">
+                            <div class="card-title">
+                                <h3>Query Execution Results</h3>
+                                <p>Processed indicators and data preview</p>
+                            </div>
+                            
+                            <div id="query-result-message" style="font-size: 0.9rem; border-left: 3px solid var(--primary); padding-left: 12px; margin: 8px 0; color: var(--text-primary); display: none;">
+                                <!-- Answer will inject here -->
+                            </div>
+                            
+                            <div id="query-result-table-wrap" class="table-responsive" style="margin-top: 10px; display: none;">
+                                <table class="data-table">
+                                    <thead id="query-result-thead">
+                                        <!-- Header will inject -->
+                                    </thead>
+                                    <tbody id="query-result-tbody">
+                                        <!-- Rows will inject -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div id="query-result-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.82rem; gap: 8px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="36" height="36" style="opacity: 0.6;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                <span>No active query results. Type a query or click a suggestion card above to run analysis.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SYSTEM EFFICIENCY TAB -->
+            <div class="tab-panel" id="tab-efficiency">
+                <div class="kpi-row">
+                    <div class="kpi-card" style="border-left: 4px solid var(--success);">
+                        <div class="kpi-header">
+                            <span>Avg Processing Speed</span>
+                            <div class="kpi-icon" style="background-color: var(--success-glow); color: var(--success);">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="kpi-value">5.2 Days</div>
+                        <div class="kpi-footer">
+                            <span class="kpi-trend up" style="color: var(--success); background-color: var(--success-glow);">
+                                -1.2 Days
+                            </span>
+                            <span>from last year standard</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card" style="border-left: 4px solid var(--success);">
+                        <div class="kpi-header">
+                            <span>Pending Queue Backlog</span>
+                            <div class="kpi-icon" style="background-color: var(--success-glow); color: var(--success);">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="kpi-value">124 Cases</div>
+                        <div class="kpi-footer">
+                            <span class="kpi-trend up" style="color: var(--success); background-color: var(--success-glow);">
+                                -18%
+                            </span>
+                            <span>queue density decline</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card" style="border-left: 4px solid var(--error);">
+                        <div class="kpi-header">
+                            <span>Revenue Audit Variance</span>
+                            <div class="kpi-icon" style="background-color: var(--error-glow); color: var(--error);">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="kpi-value">GHS 18,250</div>
+                        <div class="kpi-footer">
+                            <span class="kpi-trend down" style="color: var(--error); background-color: var(--error-glow);">
+                                +GHS 4,200
+                            </span>
+                            <span>unreconciled manual receipts</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kpi-card" style="border-left: 4px solid var(--warning);">
+                        <div class="kpi-header">
+                            <span>Theory Test Failure Rate</span>
+                            <div class="kpi-icon" style="background-color: var(--warning-glow); color: var(--warning);">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="kpi-value">28.4%</div>
+                        <div class="kpi-footer">
+                            <span class="badge badge-pending">HIGH BATCH LOAD</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid-2">
+                    <div class="dashboard-card">
+                        <div class="card-title-wrap">
+                            <div class="card-title">
+                                <h3>Processing Time by Region</h3>
+                                <p>Average days between application receipt and physical card issuance</p>
+                            </div>
+                        </div>
+                        <div class="chart-container" id="chart-processing-delays"></div>
+                    </div>
+                    
+                    <div class="dashboard-card" style="display: flex; flex-direction: column; gap: 14px;">
+                        <div class="card-title">
+                            <h3>Administrative Performance Auditing</h3>
+                            <p>Data-driven insights representing processing leakages</p>
+                        </div>
+                        
+                        <div style="font-size: 0.84rem; display: flex; flex-direction: column; gap: 10px;">
+                            <div style="background-color: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); padding: 12px; border-radius: var(--border-radius-sm);">
+                                <h4 style="color: var(--text-primary); font-size: 0.84rem; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                    <span style="color: var(--warning);">⚠</span> Accra Regional Backlog Concentration
+                                </h4>
+                                <p style="color: var(--text-secondary); font-size: 0.76rem; margin-top: 4px;">
+                                    Greater Accra holds **58% of the pending backlog queue**, driven by examiner availability limitations during practical road tests.
+                                </p>
+                            </div>
+                            <div style="background-color: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); padding: 12px; border-radius: var(--border-radius-sm);">
+                                <h4 style="color: var(--text-primary); font-size: 0.84rem; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                    <span style="color: var(--success);">✔</span> Ashanti Digitisation Efficiency Index
+                                </h4>
+                                <p style="color: var(--text-secondary); font-size: 0.76rem; margin-top: 4px;">
+                                    The rollout of the localized mobile app queue in Kumasi branch has reduced vehicle registration processing time by **2.8 days** since Q3.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid-2">
+                    <div class="dashboard-card" style="border-top: 3px solid var(--error);">
+                        <div class="card-title">
+                            <h3 style="color: var(--error); display: flex; align-items: center; gap: 8px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                Performance Deficiencies (System Bottlenecks)
+                            </h3>
+                            <p>Identified administrative delays and data compliance weaknesses</p>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.82rem;">
+                            <div style="border-left: 3px solid var(--error); padding-left: 12px;">
+                                <strong style="color: var(--text-primary);">Manual Inspection Hotspots (Western & Northern Regions)</strong>
+                                <p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.78rem;">
+                                    Manual physical examination of heavy-duty cargo trucks in Takoradi and Tamale branches requires an average of **9.1 days** per applicant, creating massive bottlenecks.
+                                </p>
+                            </div>
+                            <div style="border-left: 3px solid var(--error); padding-left: 12px;">
+                                <strong style="color: var(--text-primary);">Revenue Receipts Mismatch</strong>
+                                <p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.78rem;">
+                                    Cross-referencing licensing payments against official fee codes revealed a **GHS 18,250 billing discrepancy** originating from manual paper receipt logs in district outposts.
+                                </p>
+                            </div>
+                            <div style="border-left: 3px solid var(--error); padding-left: 12px;">
+                                <strong style="color: var(--text-primary);">Practical Driving Test Logjam</strong>
+                                <p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.78rem;">
+                                    High examiner-to-candidate ratios (1:45) in Greater Accra cause test booking queues of up to **22 days**, encouraging license evasion.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" style="border-top: 3px solid var(--success);">
+                        <div class="card-title">
+                            <h3 style="color: var(--success); display: flex; align-items: center; gap: 8px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 .364l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                </svg>
+                                PFM & Process Improvements
+                            </h3>
+                            <p>Actionable, data-driven suggestions to optimize DVLA operations</p>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.82rem;">
+                            <div style="border-left: 3px solid var(--success); padding-left: 12px;">
+                                <strong style="color: var(--text-primary);">Centralized e-Receipt Reconciliation</strong>
+                                <p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.78rem;">
+                                    Enforce instant digital receipt generation linked to the Ministry of Finance's **GIFMIS system** to prevent leakages and ensure 100% auditable accounting.
+                                </p>
+                            </div>
+                            <div style="border-left: 3px solid var(--success); padding-left: 12px;">
+                                <strong style="color: var(--text-primary);">Deploy Mobile Digitized Inspection Units</strong>
+                                <p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.78rem;">
+                                    Provide inspectors in Western/Northern regions with mobile inspection tablets to upload roadworthiness checksheets in real-time, reducing inspection times to **under 48 hours**.
+                                </p>
+                            </div>
+                            <div style="border-left: 3px solid var(--success); padding-left: 12px;">
+                                <strong style="color: var(--text-primary);">Theory Simulator Accreditation</strong>
+                                <p style="color: var(--text-secondary); margin-top: 4px; font-size: 0.78rem;">
+                                    Accredit private driving institutions to run automated theory and simulation tests, offloading test burdens from DVLA staff and reducing backlog times by **40%**.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REPORTS & EXPORTS TAB -->
+            <div class="tab-panel" id="tab-reports">
+                <div class="dashboard-grid-2" style="grid-template-columns: 0.8fr 1.2fr;">
+                    
+                    <!-- Left: Control configurations -->
+                    <div class="dashboard-card" style="display: flex; flex-direction: column; gap: 18px;">
+                        <div class="card-title">
+                            <h3>Configure Extraction Filters</h3>
+                            <p>Scope your report dataset parameters</p>
+                        </div>
+                        
+                        <!-- Form elements -->
+                        <div style="display: flex; flex-direction: column; gap: 14px;">
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.76rem; font-weight: 600; color: var(--text-secondary);">REPORT CATEGORY</label>
+                                <select id="rep-category" class="query-input" style="padding: 10px 14px; font-size: 0.82rem; width: 100%;">
+                                    <option value="all">Comprehensive Master Audit Report</option>
+                                    <option value="driver">Drivers Licence Registration Logs</option>
+                                    <option value="vehicle">Vehicle Registration Registry</option>
+                                    <option value="ev">Electric Vehicle (EV) Transition Insights</option>
+                                    <option value="efficiency">System Processing & PFM Bottlenecks</option>
+                                </select>
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.76rem; font-weight: 600; color: var(--text-secondary);">TEMPORAL BOUNDARY (YEAR)</label>
+                                <select id="rep-year" class="query-input" style="padding: 10px 14px; font-size: 0.82rem; width: 100%;">
+                                    <option value="all">All Available Historical Data (2021-2026)</option>
+                                    <option value="2026">2026 Audit Cohort</option>
+                                    <option value="2025">2025 Audit Cohort</option>
+                                    <option value="2024">2024 Audit Cohort</option>
+                                    <option value="2023">2023 Audit Cohort</option>
+                                    <option value="2022">2022 Audit Cohort</option>
+                                    <option value="2021">2021 Audit Cohort</option>
+                                </select>
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.76rem; font-weight: 600; color: var(--text-secondary);">REGIONAL BOUNDARY</label>
+                                <select id="rep-region" class="query-input" style="padding: 10px 14px; font-size: 0.82rem; width: 100%;">
+                                    <option value="all">All Administrative Regions</option>
+                                    <option value="Greater Accra">Greater Accra Region</option>
+                                    <option value="Ashanti">Ashanti Region</option>
+                                    <option value="Western">Western Region</option>
+                                    <option value="Northern">Northern Region</option>
+                                    <option value="Eastern">Eastern Region</option>
+                                    <option value="Volta">Volta Region</option>
+                                    <option value="Central">Central Region</option>
+                                    <option value="Brong Ahafo">Brong Ahafo Region</option>
+                                    <option value="Upper East">Upper East Region</option>
+                                    <option value="Upper West">Upper West Region</option>
+                                </select>
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.76rem; font-weight: 600; color: var(--text-secondary);">EXTRACTION FILE FORMAT</label>
+                                <select id="rep-format" class="query-input" style="padding: 10px 14px; font-size: 0.82rem; width: 100%;">
+                                    <option value="csv">CSV (Flat Table File - MS Excel / Pandas)</option>
+                                    <option value="json">JSON (Structured Hierarchy Database Object)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button id="generate-report-btn" class="btn-primary" style="margin-top: 10px; width: 100%; justify-content: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            <span>Compile Data Report</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Right: Document Layout Preview and Downloads -->
+                    <div class="dashboard-card" style="display: flex; flex-direction: column; height: 500px;">
+                        <div class="card-title-wrap" style="border-bottom: 1px solid var(--panel-border); padding-bottom: 12px; margin-bottom: 12px;">
+                            <div class="card-title">
+                                <h3>Report Document Preview</h3>
+                                <p>Generated business audit output representation</p>
+                            </div>
+                            
+                            <!-- Export Actions -->
+                            <div style="display: flex; gap: 10px;" id="report-actions-wrap">
+                                <button id="export-download-btn" class="btn-secondary" style="padding: 6px 12px; font-size: 0.78rem;" disabled>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14" height="14">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    <span>Extract File</span>
+                                </button>
+                                <button id="export-print-btn" class="btn-secondary" style="padding: 6px 12px; font-size: 0.78rem;" disabled>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="14" height="14">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                    </svg>
+                                    <span>Print</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Preview container canvas -->
+                        <div id="report-preview-canvas" style="flex-grow: 1; overflow-y: auto; background-color: rgba(0,0,0,0.2); border: 1px dashed var(--panel-border); border-radius: var(--border-radius-sm); padding: 24px; position: relative;">
+                            
+                            <!-- Default Empty State -->
+                            <div id="report-empty-preview" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.82rem; gap: 8px; text-align: center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="36" height="36" style="opacity: 0.5;">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>No compiled document. Select filters and click "Compile Data Report" to generate.</span>
+                            </div>
+                            
+                            <!-- Document content (initially hidden) -->
+                            <div id="report-preview-document" style="display: none; color: var(--text-primary); font-family: var(--font-body); font-size: 0.82rem;">
+                                <!-- Report Title header -->
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--panel-border); padding-bottom: 12px; margin-bottom: 16px;">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <img src="DVLA Ghana logo.png" alt="" style="width: 32px; height: 32px; object-fit: contain;">
+                                        <div>
+                                            <h4 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; margin: 0; color: var(--text-primary);">Driver and Vehicle Licensing Authority</h4>
+                                            <span style="font-size: 0.65rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Republic of Ghana - Research & Audit Division</span>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">
+                                        <div>REF: DVLA-AR-${new Date().getFullYear()}</div>
+                                        <div id="report-gen-date">DATE: --/--/----</div>
+                                    </div>
+                                </div>
+                                
+                                <h3 id="report-doc-title" style="font-family: var(--font-heading); font-size: 1.1rem; text-align: center; text-transform: uppercase; margin-bottom: 16px; letter-spacing: -0.01em;">AUDIT PERFORMANCE REPORT</h3>
+                                
+                                <!-- Meta metadata metrics grids -->
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background-color: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); padding: 12px; border-radius: var(--border-radius-sm); margin-bottom: 16px;" id="report-meta-grid">
+                                    <!-- Populated dynamically -->
+                                </div>
+                                
+                                <p style="font-size: 0.8rem; line-height: 1.45; margin-bottom: 16px; color: var(--text-secondary);">
+                                    This document certifies the performance and administrative metrics extracted from DVLA Ghana's Big Data core registry ledger. The data covers the filtered boundaries of regions and temporal cohorts specified.
+                                </p>
+                                
+                                <h4 style="font-family: var(--font-heading); font-size: 0.86rem; margin-bottom: 8px; text-transform: uppercase; color: var(--text-primary);">Sample Transaction Log Extracts</h4>
+                                
+                                <div class="table-responsive">
+                                    <table class="data-table" style="font-size: 0.74rem;">
+                                        <thead id="report-preview-thead">
+                                            <!-- Headers -->
+                                        </thead>
+                                        <tbody id="report-preview-tbody">
+                                            <!-- Body rows -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- Signature lines -->
+                                <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 16px; border-top: 1px dashed var(--panel-border);">
+                                    <div style="font-size: 0.72rem; color: var(--text-muted);">
+                                        <div>Compiled by:</div>
+                                        <div style="font-weight: 600; color: var(--text-primary); margin-top: 12px; border-top: 1px solid var(--text-muted); width: 150px; padding-top: 4px;">Albert Wotorgbui</div>
+                                        <div>Deputy Director, Research</div>
+                                    </div>
+                                    <div style="font-size: 0.72rem; color: var(--text-muted); text-align: right;">
+                                        <div>Approved for release:</div>
+                                        <div style="margin-top: 12px; border-top: 1px solid var(--text-muted); width: 150px; display: inline-block;"></div>
+                                        <div>Director General, DVLA Ghana</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATA CHAT ASSISTANT TAB -->
+            <div class="tab-panel" id="tab-chat">
+                <div class="dashboard-grid-2" style="grid-template-columns: 1.2fr 0.8fr;">
+                    <!-- Chat box -->
+                    <div class="chat-assistant-container">
+                        <div class="chat-messages" id="chat-messages-box">
+                            <div class="chat-bubble assistant">
+                                <div class="chat-thoughts">Thought: Welcoming user to the DVLA Data Assistant.</div>
+                                Hello! I am your DVLA Ghana Big Data Assistant. I can help you search, filter, and analyse the mock registrations database. 
+                                <br><br>
+                                Ask me questions like:
+                                <br>
+                                • <em>"How many electric vehicles are currently registered?"</em>
+                                <br>
+                                • <em>"What is the total revenue in Greater Accra?"</em>
+                                <br>
+                                • <em>"Show me the average age of drivers."</em>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-suggestions" id="chat-suggested-prompts">
+                            <button class="suggestion-btn" data-prompt="How many electric vehicles are registered?">How many EVs?</button>
+                            <button class="suggestion-btn" data-prompt="What is the average age of drivers in Ashanti?">Avg driver age in Ashanti?</button>
+                            <button class="suggestion-btn" data-prompt="Show license status distribution">Licence approvals status?</button>
+                        </div>
+                        
+                        <div class="chat-input-area">
+                            <textarea id="chat-textarea" class="chat-input" placeholder="Type a message or question about the DVLA dataset..."></textarea>
+                            <button id="chat-send-btn" class="chat-send-btn" aria-label="Send message">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Context Helper -->
+                    <div class="dashboard-card">
+                        <div class="card-title">
+                            <h3>Analytics Assistant Context</h3>
+                            <p>How the NLP system resolves questions</p>
+                        </div>
+                        <p style="font-size: 0.82rem; color: var(--text-secondary);">
+                            The assistant translates text directly into SQL-like queries against the active database of 2,500 mock transaction logs. 
+                        </p>
+                        <hr style="border: none; border-top: 1px solid var(--panel-border); margin: 8px 0;">
+                        <h4 style="font-size: 0.8rem; font-weight: 600;">Supported Intent Filters:</h4>
+                        <ul style="font-size: 0.76rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
+                            <li><strong>Type</strong>: Matches <code>"driver licence"</code> or <code>"vehicle registration"</code></li>
+                            <li><strong>Region</strong>: Resolves Accra, Kumasi/Ashanti, Tamale/Northern, Takoradi/Western, Ho/Volta, etc.</li>
+                            <li><strong>Temporal</strong>: Filters specific registration years (2021-2026)</li>
+                            <li><strong>Subcategories</strong>: Resolves EV/Electric, Hybrid, Petrol, Diesel, Classes A-F</li>
+                            <li><strong>Aggregators</strong>: Calculates <code>Sum (Revenue)</code>, <code>Mean (Age)</code>, <code>Count (Registrations)</code></li>
+                        </ul>
+                    </div>
+            </div>
+            
+            <!-- Background Watermark Logo -->
+            <div class="dashboard-watermark">
+                <img src="DVLA Ghana logo.png" alt="DVLA Logo Background Watermark">
+            </div>
+        </main>
+    </div>
+    
+    <!-- Edit Record Modal -->
+    <div id="edit-record-modal" class="modal-backdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 2000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+        <div class="modal-content" style="background-color: var(--bg-alt); border: 1px solid var(--panel-border); border-radius: var(--border-radius-lg); width: 100%; max-width: 460px; padding: 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s ease; display: flex; flex-direction: column; gap: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--panel-border); padding-bottom: 12px;">
+                <h3 style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 700;">Edit Registration Record</h3>
+                <button id="modal-close-btn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.25rem;">&times;</button>
+            </div>
+            
+            <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>ID: <strong id="modal-rec-id" class="mono-id">DVLA-VR-10001</strong></span>
+                <span>Type: <strong id="modal-rec-type" style="color: var(--primary-light);">Vehicle</strong></span>
+            </div>
+            
+            <form id="modal-edit-form" style="display: flex; flex-direction: column; gap: 12px; font-size: 0.82rem;">
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-weight: 600; color: var(--text-secondary);">TRANSACTION STATUS</label>
+                    <select id="modal-status" class="query-input" style="padding: 8px 12px;">
+                        <option value="Approved">Approved</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-weight: 600; color: var(--text-secondary);">REGIONAL BRANCH</label>
+                    <select id="modal-region" class="query-input" style="padding: 8px 12px;">
+                        <option value="Greater Accra">Greater Accra</option>
+                        <option value="Ashanti">Ashanti</option>
+                        <option value="Western">Western</option>
+                        <option value="Northern">Northern</option>
+                        <option value="Eastern">Eastern</option>
+                        <option value="Volta">Volta</option>
+                        <option value="Central">Central</option>
+                        <option value="Brong Ahafo">Brong Ahafo</option>
+                        <option value="Upper East">Upper East</option>
+                        <option value="Upper West">Upper West</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-weight: 600; color: var(--text-secondary);">PROCESSING FEE (GHS)</label>
+                    <input type="number" id="modal-fee" class="query-input" style="padding: 8px 12px;">
+                </div>
+                
+                <!-- Driver specific fields -->
+                <div id="modal-driver-fields" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <label style="font-weight: 600; color: var(--text-secondary);">LICENCE CLASS</label>
+                            <select id="modal-class" class="query-input" style="padding: 8px 12px;">
+                                <option value="A">Class A</option>
+                                <option value="B">Class B</option>
+                                <option value="C">Class C</option>
+                                <option value="D">Class D</option>
+                                <option value="E">Class E</option>
+                                <option value="F">Class F</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <label style="font-weight: 600; color: var(--text-secondary);">APPLICANT AGE</label>
+                            <input type="number" id="modal-age" class="query-input" style="padding: 8px 12px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vehicle specific fields -->
+                <div id="modal-vehicle-fields" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <label style="font-weight: 600; color: var(--text-secondary);">FUEL TYPE</label>
+                            <select id="modal-fuel" class="query-input" style="padding: 8px 12px;">
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Electric">Electric</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 4px;">
+                            <label style="font-weight: 600; color: var(--text-secondary);">VEHICLE BRAND</label>
+                            <input type="text" id="modal-brand" class="query-input" style="padding: 8px 12px;">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; border-top: 1px solid var(--panel-border); padding-top: 16px;">
+                <button id="modal-cancel-btn" class="btn-secondary" style="padding: 8px 16px; font-size: 0.82rem;">Cancel</button>
+                <button id="modal-save-btn" class="btn-primary" style="padding: 8px 20px; font-size: 0.82rem; box-shadow: none;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apache ECharts via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- Dataset and NLP Processor -->
+    <script src="data.js"></script>
+    <!-- Core Application Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
