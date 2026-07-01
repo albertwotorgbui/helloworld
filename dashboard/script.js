@@ -491,8 +491,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     label: { show: false },
                     emphasis: { label: { show: true, fontSize: 12, fontWeight: 'bold' } },
                     data: [
-                        { value: 79.9, name: 'Service Delays', itemStyle: { color: 'var(--accent)' } },
-                        { value: 13.5, name: 'Impolite Staff', itemStyle: { color: 'var(--primary)' } },
+                        { value: 79.9, name: 'Service Delays', itemStyle: { color: '#ef4444' } },
+                        { value: 13.5, name: 'Impolite Staff', itemStyle: { color: '#f59e0b' } },
                         { value: 6.6, name: 'Overcharging', itemStyle: { color: '#8b5cf6' } }
                     ]
                 }]
@@ -511,8 +511,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 series: [{
                     name: 'Usage Share',
                     type: 'bar',
-                    data: [0.4, 1.8, 2.4, 2.4, 5.4, 87.7],
-                    itemStyle: { color: 'var(--primary)' },
+                    data: [
+                        { value: 0.4, itemStyle: { color: '#ec4899' } },
+                        { value: 1.8, itemStyle: { color: '#3b82f6' } },
+                        { value: 2.4, itemStyle: { color: '#8b5cf6' } },
+                        { value: 2.4, itemStyle: { color: '#06b6d4' } },
+                        { value: 5.4, itemStyle: { color: '#10b981' } },
+                        { value: 87.7, itemStyle: { color: '#f59e0b' } }
+                    ],
                     label: { show: true, position: 'right', formatter: '{c}%', color: isDark ? '#fff' : '#000' }
                 }]
             });
@@ -526,12 +532,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 ...theme,
                 tooltip: { ...theme.tooltip, trigger: 'axis', axisPointer: { type: 'shadow' } },
                 xAxis: { ...theme.xAxis, type: 'value', max: 100, axisLabel: { formatter: '{value}%' } },
-                yAxis: { ...theme.yAxis, type: 'category', data: ['Dressing', 'Work Attitude', 'Politeness', 'Professionalism', 'Office Env'] },
+                yAxis: { ...theme.yAxis, type: 'category', data: ['Office Env', 'Professionalism', 'Politeness', 'Work Attitude', 'Dressing'] },
                 series: [{
                     name: 'Good/Excellent Rating',
                     type: 'bar',
-                    data: [97.5, 96.7, 97.3, 97.0, 95.0],
-                    itemStyle: { color: 'var(--primary)' },
+                    data: [
+                        { value: 95.0, itemStyle: { color: '#f59e0b' } },
+                        { value: 97.0, itemStyle: { color: '#3b82f6' } },
+                        { value: 97.3, itemStyle: { color: '#8b5cf6' } },
+                        { value: 96.7, itemStyle: { color: '#06b6d4' } },
+                        { value: 97.5, itemStyle: { color: '#10b981' } }
+                    ],
                     label: { show: true, position: 'right', formatter: '{c}%', color: isDark ? '#fff' : '#000' }
                 }]
             });
@@ -550,8 +561,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: 'Satisfaction Rate',
                     type: 'bar',
                     data: [
-                        { value: 80.8, itemStyle: { color: 'var(--accent)' } },
-                        { value: 84.9, itemStyle: { color: 'var(--primary)' } },
+                        { value: 80.8, itemStyle: { color: '#ef4444' } },
+                        { value: 84.9, itemStyle: { color: '#f59e0b' } },
                         { value: 87.9, itemStyle: { color: '#10b981' } }
                     ],
                     label: { show: true, position: 'top', formatter: '{c}%', color: isDark ? '#fff' : '#000' }
