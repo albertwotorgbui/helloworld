@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSSIS 2025 - Nationwide Customer Satisfaction & Service Integrity Hub</title>
+    
+    <!-- Fonts & Styling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-dark: #070e0a;
+            --card-bg: rgba(13, 27, 18, 0.75);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary: #f59e0b; /* Golden Yellow */
+            --accent: #ef4444; /* Crimson Red */
+            --success: #10b981; /* Emerald Green */
+            --info: #06b6d4; /* Vibrant Cyan */
+            --purple: #8b5cf6; /* Royal Purple */
+            --pink: #ec4899; /* Hot Pink */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(rgba(7, 14, 10, 0.82), rgba(7, 14, 10, 0.95)), url('bg-green-storm.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 24px;
+            overflow-x: hidden;
+        }
+
+        /* Header Style */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 32px;
+            background: rgba(13, 27, 18, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .header-logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-img {
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .header-title h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-title p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .btn-back-hub {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back-hub:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* KPI Strip */
+        .kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .kpi-card.kpi-satisfied::after { background: var(--success); }
+        .kpi-card.kpi-friction::after { background: var(--accent); }
+        .kpi-card.kpi-digital::after { background: var(--info); }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .kpi-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .kpi-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 4px;
+            color: var(--text-primary);
+        }
+
+        .kpi-desc {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Sub-tab Navigation */
+        .subtab-navigation {
+            display: flex;
+            gap: 12px;
+            background: rgba(13, 27, 18, 0.5);
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+
+        .subtab-btn {
+            padding: 8px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subtab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .subtab-btn.active {
+            color: #000;
+            background: var(--primary);
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Tab Content Panel */
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Layout Grid */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .charts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .charts-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-row-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dashboard-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .card-header h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .card-header p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .chart-viewport {
+            height: 300px;
+            width: 100%;
+        }
+
+        /* Insights Cards Panel */
+        .insights-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-height: 1000px;
+            overflow-y: auto;
+        }
+
+        .insight-section-header {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .insight-block {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .insight-block:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateX(4px);
+        }
+
+        .insight-block h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .insight-block p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        .insight-block p strong {
+            color: var(--text-primary);
+        }
+
+        /* Detail List table styles */
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+
+        .detail-table th, .detail-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .detail-table th {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-logo-wrap">
+            <img src="DVLA Ghana logo.png" alt="DVLA Ghana Logo" class="logo-img">
+            <div class="header-title">
+                <h1>CSSIS Customer Satisfaction Survey Hub</h1>
+                <p>Nationwide Research, Business Development & Innovation (RBDI) Portal — 2025 Analytics</p>
+            </div>
+        </div>
+        <a href="index.html" class="btn-back-hub">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Registry Hub
+        </a>
+    </header>
+
+    <!-- KPI Strip -->
+    <div class="kpi-strip">
+        <div class="kpi-card">
+            <div class="kpi-label">Survey Sample Size</div>
+            <div class="kpi-value" style="color: var(--primary);">2,946</div>
+            <div class="kpi-desc">📈 +7.4% YoY Growth (2,743 in 2024)</div>
+        </div>
+        <div class="kpi-card kpi-satisfied">
+            <div class="kpi-label">Satisfaction Index</div>
+            <div class="kpi-value" style="color: var(--success);">83.7%</div>
+            <div class="kpi-desc">👥 Satisfied / Very Satisfied Respondents</div>
+        </div>
+        <div class="kpi-card kpi-digital">
+            <div class="kpi-label">In-Person Skew Rate</div>
+            <div class="kpi-value" style="color: var(--info);">87.7%</div>
+            <div class="kpi-desc">🏢 Massive Reliance on Local Offices</div>
+        </div>
+        <div class="kpi-card kpi-friction">
+            <div class="kpi-label">Primary Friction Point</div>
+            <div class="kpi-value" style="color: var(--accent);">79.9%</div>
+            <div class="kpi-desc">⚠️ Delays Cited in Dissatisfaction Feedback</div>
+        </div>
+    </div>
+
+    <!-- Sub-tab Selector -->
+    <div class="subtab-navigation">
+        <button class="subtab-btn active" data-tab="tab-demographics">Demographics & Scope</button>
+        <button class="subtab-btn" data-tab="tab-channels">Channels & Services</button>
+        <button class="subtab-btn" data-tab="tab-satisfaction">Satisfaction & Integrity</button>
+    </div>
+
+    <!-- TAB 1: DEMOGRAPHICS & SCOPE -->
+    <div class="tab-panel active" id="tab-demographics">
+        <div class="analytics-grid">
+            <div class="charts-container">
+                <div class="charts-row-2">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>National Station Participation</h3>
+                            <p>Survey participation distribution across 14 principal DVLA offices</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-dem-stations"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Age Cohorts Breakdown</h3>
+                            <p>Respondent age groupings showing dominant segments</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-dem-age"></div>
+                    </div>
+                </div>
+                <div class="charts-row-2">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Gender Representation</h3>
+                            <p>Significant gender imbalance observed in survey sample</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-dem-gender"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Education vs Employment Profile</h3>
+                            <p>Breakdown of education levels & employment sectors</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-dem-edu-emp"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights Panel Right -->
+            <div class="dashboard-card insights-panel">
+                <div class="card-header">
+                    <h3 style="color: var(--primary);">Demographics Data Points & Insights</h3>
+                    <p>Detailed mapping and explanation of survey sample attributes</p>
+                </div>
+                
+                <div class="insight-block" style="border-left: 3px solid #f59e0b;">
+                    <h4 style="color: #f59e0b;">📍 Tri-Center Congestion Core</h4>
+                    <p>
+                        Three stations represent <strong>28.0% of the entire national sample</strong>: <strong>Kumasi (10% - 296)</strong>, <strong>Weija (9% - 257)</strong>, and <strong>Accra Regional Bohye (9% - 251)</strong>. 
+                        <br><em>Operational Insight:</em> Frontline workload stress, delays, and queuing times are highly concentrated in these metropolitan centers, highlighting the need for immediate staff augmentation and queue-management automation.
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #ef4444;">
+                    <h4 style="color: #ef4444;">⚖️ Gender Disparity & Vehicle Ownership</h4>
+                    <p>
+                        The survey reveals a stark gender imbalance: <strong>78.9% Male (2,315)</strong> vs. <strong>21.1% Female (619)</strong>. 
+                        <br><em>Socio-Economic Insight:</em> This imbalance points to underlying demographic divides in vehicle ownership, commercial driving licenses, and access to vehicle finance in Ghana. It indicates a clear research pathway for the RBDI team to design gender-inclusive service campaigns.
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #8b5cf6;">
+                    <h4 style="color: #8b5cf6;">👥 Economic Age Driver Segment</h4>
+                    <p>
+                        Middle-aged adults aged <strong>28-47 represent 66.0% (1,929)</strong> of the sample, with the <strong>28-37 cohort constituting the largest share at 40.0% (1,174)</strong>. 
+                        <br><em>Policy Insight:</em> The overwhelming majority of visitors are in their peak economic and productive years. System inefficiencies at DVLA have direct economic costs by keeping productive citizens away from their jobs and businesses.
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #06b6d4;">
+                    <h4 style="color: #06b6d4;">💼 Self-Employment Dominance</h4>
+                    <p>
+                        Over half of the respondents are <strong>Self-Employed (52.4% - 1,538)</strong>, followed by Formally Employed (36.5% - 1,072) and Not Employed (9.8% - 287).
+                        <br><em>Workforce Insight:</em> The self-employed group represents a critical business demographic (e.g. taxi/ride-hailing drivers, freight operators, traders). Delays directly hit their daily income, which fuels their higher likelihood to use middlemen to speed up transactions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: CHANNELS & SERVICES -->
+    <div class="tab-panel" id="tab-channels">
+        <div class="analytics-grid">
+            <div class="charts-container">
+                <div class="charts-row-2">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Method of Contact Distribution</h3>
+                            <p>Contrast between physical office visits and underutilized digital portals</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-chan-methods"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Contact Channel Responsiveness</h3>
+                            <p>How customers rated the speed and quality of contact channels</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-chan-resp"></div>
+                    </div>
+                </div>
+                <div class="charts-row-2">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Driver Licensing Services Patronized</h3>
+                            <p>Usage breakdown of licensing activities (N=2,109)</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-chan-license"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Vehicle Services Patronized</h3>
+                            <p>Usage breakdown of vehicle-related transactions (N=1,308)</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-chan-vehicles"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights Panel Right -->
+            <div class="dashboard-card insights-panel">
+                <div class="card-header">
+                    <h3 style="color: var(--primary);">Channels & Services Insights</h3>
+                    <p>Analysis of service delivery bottlenecks and digital pathways</p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #ec4899;">
+                    <h4 style="color: #ec4899;">🚪 The 88% In-Person Congestion Trap</h4>
+                    <p>
+                        An overwhelming <strong>87.7% (2,487) of contacts occur via physical office visits</strong>. Digital channels (Website: 5.4%, Call Center: 2.4%, Online App: 2.4%, Social Media: 1.8%, Email: 0.4%) account for a combined total of only 12.3%.
+                        <br><em>Strategic Bottleneck:</em> Although the online systems are functional and rated <strong>83% responsive</strong> by those who use them, a massive trust or accessibility barrier blocks digital migration, forcing congestion onto physical counters.
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #3b82f6;">
+                    <h4 style="color: #3b82f6;">📄 Licensing Service Load</h4>
+                    <p>
+                        Driver Licensing represents <strong>76.1% (2,160) of recent contacts</strong>, while Vehicle Registration represents <strong>23.9% (677)</strong>. 
+                        <br>Within licensing, <strong>Renewals (38.8% - 819)</strong> and <strong>New Issuances (30.9% - 652)</strong> make up nearly 70% of transactions. 
+                        <br><em>Re-design Insight:</em> Renewal is a highly predictable, mechanical process. Setting up automated, self-service kiosks at local stations or malls could instantly migrate 38.8% of physical licensing traffic off the main floors.
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #8b5cf6;">
+                    <h4 style="color: #8b5cf6;">🚗 Vehicle Registrations & Inspections</h4>
+                    <p>
+                        Vehicle-related services are led by <strong>Vehicle Registration (48.5% - 634)</strong> and <strong>Roadworthy Certification (30.2% - 395)</strong>, followed by Change of Ownership (9.5% - 124).
+                        <br><em>Quality Control Insight:</em> Roadworthy certifications require physical vehicle inspection. However, qualitative comments reveal concerns about manual inspection bottlenecks and receipt mismatches, pointing to a need for computerized inspection lanes.
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #06b6d4;">
+                    <h4 style="color: #06b6d4;">🚛 Mobility Profile & Commercial Impact</h4>
+                    <p>
+                        <strong>66.6% (1,924) of visitors drive private cars or SUVs</strong>, while <strong>22.2% (642) ride motorcycles</strong>. 
+                        Additionally, vehicle usage is heavily skewed towards <strong>Commercial business (36.1% - 1,036)</strong> and Private business (32.0% - 920).
+                        <br><em>Economic Insight:</em> The high proportion of commercial vehicle and motorcycle operators highlights how licensing speed directly affects transport networks and delivery ecosystems in cities like Kumasi and Accra.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: SATISFACTION & INTEGRITY -->
+    <div class="tab-panel" id="tab-satisfaction">
+        <div class="analytics-grid">
+            <div class="charts-container">
+                <div class="charts-row-2">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Satisfaction Index Distribution</h3>
+                            <p>Overview of client satisfaction levels (N=2,624)</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-sat-level"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Primary Dissatisfaction Drivers</h3>
+                            <p>Friction points highlighted in negative feedback (N=713)</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-sat-dissatisfiers"></div>
+                    </div>
+                </div>
+                <div class="charts-row-2">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>The Premium Service Paradox</h3>
+                            <p>Comparing satisfaction rate vs actual processing tier</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-sat-paradox"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Core Attribute Quality Ratings</h3>
+                            <p>Weighted average out of 4.0 across environmental & staff indices</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-sat-ratings"></div>
+                    </div>
+                </div>
+                <div class="charts-row-2">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Transaction Durations</h3>
+                            <p>Time spent at office (Left) & number of physical visits (Right)</p>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div class="chart-viewport" id="chart-sat-time" style="height: 260px;"></div>
+                            <div class="chart-viewport" id="chart-sat-visits" style="height: 260px;"></div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Willingness to Recommend</h3>
+                            <p>Indicator of brand advocacy & public trust in DVLA services</p>
+                        </div>
+                        <div class="chart-viewport" id="chart-sat-recom"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights Panel Right -->
+            <div class="dashboard-card insights-panel">
+                <div class="card-header">
+                    <h3 style="color: var(--primary);">Satisfaction & Service Integrity Insights</h3>
+                    <p>Analysis of service paradoxes, delays, and integrity gaps</p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #ef4444;">
+                    <h4 style="color: #ef4444;">⚡ The Premium Satisfaction Paradox (Value Leak)</h4>
+                    <p>
+                        Although 40.0% opt for Premium and 17.0% select Prestige same-day services, <strong>Premium has the lowest satisfaction rate (80.8%)</strong> compared to standard Regular service (84.9%) and Prestige same-day (87.9%).
+                        <br><em>Unimagined Insight:</em> Customers paying extra for Premium expect faster service. However, due to administrative bottlenecks, Premium processing is often delayed. This mismatch of expectations leads to a critical value leak and customer frustration.
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #f59e0b;">
+                    <h4 style="color: #f59e0b;">⏳ The Time-Dissatisfaction Connection</h4>
+                    <p>
+                        While <strong>78.2% complete transactions within 3 hours</strong>, <strong>21.8% spend over 3 hours</strong> (including 9.1% who spend more than one day). Delays are cited as the primary cause of dissatisfaction by <strong>79.9% (570)</strong>.
+                        <br><em>Operational Rule:</em> There is a strong relationship between time spent at an office and customer dissatisfaction. Any transaction taking more than 3 hours drops satisfaction levels significantly, making waiting time the single most critical performance indicator.
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #8b5cf6;">
+                    <h4 style="color: #8b5cf6;">💸 Delays as a Driver for Corruption</h4>
+                    <p>
+                        Qualitative feedback repeatedly highlights issues with <strong>extortion, overcharging, and the use of middlemen ("Goro Boys")</strong>.
+                        <br><em>Socio-Systemic Insight:</em> Corrupt practices are directly linked to system delays. When standard channels are slow or complex, customers pay middleman fees out of desperation to bypass lines. Reducing transaction times is the most effective way to eliminate "Goro Boys".
+                    </p>
+                </div>
+
+                <div class="insight-block" style="border-left: 3px solid #06b6d4;">
+                    <h4 style="color: #06b6d4;">🛠️ Hardware & Card Quality Deficiencies</h4>
+                    <p>
+                        A major theme in qualitative comments is that **issued licenses fade and crack quickly**, showing poor print quality or material durability.
+                        <br><em>Supply Chain Insight:</em> This points to a materials quality issue. It creates high reprint costs and degrades the DVLA brand. A procurement and supply-chain quality audit is highly recommended.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to Handle Tabs & ECharts -->
+    <script>
+        // --- 1. Tab Switching Logic ---
+        const subtabBtns = document.querySelectorAll('.subtab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        subtabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active classes
+                subtabBtns.forEach(b => b.classList.remove('active'));
+                tabPanels.forEach(p => p.classList.remove('active'));
+
+                // Add active class
+                btn.classList.add('active');
+                const targetTab = btn.getAttribute('data-tab');
+                document.getElementById(targetTab).classList.add('active');
+
+                // Trigger chart resizing for newly visible tab
+                setTimeout(resizeCharts, 50);
+            });
+        });
+
+        // Track instances for resizing
+        const chartInstances = {};
+
+        function resizeCharts() {
+            Object.values(chartInstances).forEach(chart => {
+                if (chart) chart.resize();
+            });
+        }
+
+        window.addEventListener('resize', resizeCharts);
+
+        // --- 2. Chart Rendering Code ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDark = true;
+            const textStyle = { color: '#94a3b8', fontSize: 11 };
+            
+            // Base Chart Options Helper
+            const getBaseOptions = () => ({
+                backgroundColor: 'transparent',
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: 'rgba(13, 27, 18, 0.95)',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    textStyle: { color: '#f8fafc' }
+                },
+                grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+                xAxis: {
+                    type: 'category',
+                    axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+                    axisLabel: { color: '#94a3b8', fontSize: 10 }
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+                    axisLabel: { color: '#94a3b8', fontSize: 10 }
+                }
+            });
+
+            // ==========================================
+            // TAB 1 CHARTS: DEMOGRAPHICS
+            // ==========================================
+            
+            // 1. Station Participation Chart
+            const chartStations = echarts.init(document.getElementById('chart-dem-stations'));
+            chartInstances['stations'] = chartStations;
+            chartStations.setOption({
+                ...getBaseOptions(),
+                tooltip: { trigger: 'axis', formatter: '{b}: {c}% ({d} respondents)' },
+                xAxis: {
+                    type: 'value',
+                    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+                    axisLabel: { formatter: '{value}%', color: '#94a3b8' }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['Agona', 'Sefwi Wiawso', 'Denu', 'Bekwai', 'Techiman', 'Bolgatanga', 'Cape Coast', 'Head Office', 'Adenta', 'Tamale', 'Takoradi', 'Koforidua', 'Tema', 'Weija', 'Kumasi'].reverse(),
+                    axisLabel: { color: '#94a3b8', fontSize: 9 }
+                },
+                series: [{
+                    name: 'Participation Share',
+                    type: 'bar',
+                    data: [1, 1, 1, 1, 3, 3, 3, 3, 4, 4, 4, 4, 8, 9, 10].reverse(),
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+                            { offset: 0, color: '#f59e0b' },
+                            { offset: 1, color: '#d97706' }
+                        ])
+                    },
+                    label: { show: true, position: 'right', formatter: '{c}%' }
+                }]
+            });
+
+            // 2. Age Cohorts
+            const chartAge = echarts.init(document.getElementById('chart-dem-age'));
+            chartInstances['age'] = chartAge;
+            chartAge.setOption({
+                ...getBaseOptions(),
+                xAxis: { type: 'category', data: ['18-27', '28-37', '38-47', '48-57', '58 and above'] },
+                series: [{
+                    name: 'Respondents',
+                    type: 'bar',
+                    barWidth: '50%',
+                    data: [
+                        { value: 21.7, itemStyle: { color: '#06b6d4' } },
+                        { value: 40.0, itemStyle: { color: '#10b981' } },
+                        { value: 25.7, itemStyle: { color: '#f59e0b' } },
+                        { value: 9.4, itemStyle: { color: '#8b5cf6' } },
+                        { value: 3.1, itemStyle: { color: '#ef4444' } }
+                    ],
+                    label: { show: true, position: 'top', formatter: '{c}%' }
+                }]
+            });
+
+            // 3. Gender Donut
+            const chartGender = echarts.init(document.getElementById('chart-dem-gender'));
+            chartInstances['gender'] = chartGender;
+            chartGender.setOption({
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'item', formatter: '{a} <br/>{b}: {c}% ({d} respondents)' },
+                legend: { show: true, textStyle: { color: '#94a3b8' }, bottom: 0 },
+                series: [{
+                    name: 'Gender Split',
+                    type: 'pie',
+                    radius: ['45%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: { borderRadius: 8, borderColor: '#0d1b12', borderWidth: 2 },
+                    label: { show: true, position: 'outside', color: '#94a3b8', formatter: '{b}\n{c}%' },
+                    data: [
+                        { value: 78.9, name: 'Male (2,315)', itemStyle: { color: '#3b82f6' } },
+                        { value: 21.1, name: 'Female (619)', itemStyle: { color: '#ec4899' } }
+                    ]
+                }]
+            });
+
+            // 4. Education & Employment Matrix
+            const chartEduEmp = echarts.init(document.getElementById('chart-dem-edu-emp'));
+            chartInstances['eduEmp'] = chartEduEmp;
+            chartEduEmp.setOption({
+                ...getBaseOptions(),
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                legend: { data: ['Education level', 'Employment status'], textStyle: { color: '#94a3b8' }, top: 0 },
+                xAxis: { type: 'category', data: ['Tertiary/Self-Emp', 'JHS/SHS/Form-Emp', 'Vocational/Unemp', 'None/Retired', 'Other'] },
+                series: [
+                    {
+                        name: 'Education level',
+                        type: 'bar',
+                        data: [42.5, 38.8, 12.5, 5.1, 1.2],
+                        itemStyle: { color: '#8b5cf6' }
+                    },
+                    {
+                        name: 'Employment status',
+                        type: 'bar',
+                        data: [52.4, 36.5, 9.8, 1.3, 0],
+                        itemStyle: { color: '#10b981' }
+                    }
+                ]
+            });
+
+            // ==========================================
+            // TAB 2 CHARTS: CHANNELS & SERVICES
+            // ==========================================
+            
+            // 5. Contact Methods
+            const chartMethods = echarts.init(document.getElementById('chart-chan-methods'));
+            chartInstances['methods'] = chartMethods;
+            chartMethods.setOption({
+                ...getBaseOptions(),
+                xAxis: {
+                    type: 'value',
+                    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+                    axisLabel: { formatter: '{value}%' }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['Email', 'Social Media', 'Call Center', 'Online App', 'Website', 'Office Visits']
+                },
+                series: [{
+                    name: 'Usage Share',
+                    type: 'bar',
+                    data: [
+                        { value: 0.4, itemStyle: { color: '#ec4899' } },
+                        { value: 1.8, itemStyle: { color: '#3b82f6' } },
+                        { value: 2.4, itemStyle: { color: '#8b5cf6' } },
+                        { value: 2.4, itemStyle: { color: '#06b6d4' } },
+                        { value: 5.4, itemStyle: { color: '#10b981' } },
+                        { value: 87.7, itemStyle: { color: '#f59e0b' } }
+                    ],
+                    label: { show: true, position: 'right', formatter: '{c}%' }
+                }]
+            });
+
+            // 6. Contact Responsiveness
+            const chartResp = echarts.init(document.getElementById('chart-chan-resp'));
+            chartInstances['responsiveness'] = chartResp;
+            chartResp.setOption({
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+                legend: { show: true, textStyle: { color: '#94a3b8' }, bottom: 0 },
+                series: [{
+                    name: 'Responsiveness Rate',
+                    type: 'pie',
+                    radius: ['45%', '70%'],
+                    itemStyle: { borderRadius: 6, borderColor: '#0d1b12', borderWidth: 2 },
+                    label: { show: false },
+                    data: [
+                        { value: 66.7, name: 'Very Responsive', itemStyle: { color: '#10b981' } },
+                        { value: 16.4, name: 'Extremely Responsive', itemStyle: { color: '#06b6d4' } },
+                        { value: 13.0, name: 'Somewhat Responsive', itemStyle: { color: '#f59e0b' } },
+                        { value: 3.1, name: 'Not so Responsive', itemStyle: { color: '#8b5cf6' } },
+                        { value: 0.8, name: 'Not at all Responsive', itemStyle: { color: '#ef4444' } }
+                    ]
+                }]
+            });
+
+            // 7. Licensing Services Patronized
+            const chartLicense = echarts.init(document.getElementById('chart-chan-license'));
+            chartInstances['license'] = chartLicense;
+            chartLicense.setOption({
+                ...getBaseOptions(),
+                xAxis: {
+                    type: 'value',
+                    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+                    axisLabel: { formatter: '{value}%' }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['Proficiency', 'Amendment', 'Int. Permit', 'Replacement Defaced', 'Replacement Expired', 'New License', 'Renewal'].reverse(),
+                    axisLabel: { interval: 0, rotate: 15, fontSize: 8 }
+                },
+                series: [{
+                    name: 'Access Rate',
+                    type: 'bar',
+                    data: [38.8, 30.9, 14.5, 7.7, 5.0, 1.5, 1.0].reverse(),
+                    itemStyle: { color: '#8b5cf6' },
+                    label: { show: true, position: 'right', formatter: '{c}%' }
+                }]
+            });
+
+            // 8. Vehicle Services Patronized
+            const chartVehicles = echarts.init(document.getElementById('chart-chan-vehicles'));
+            chartInstances['vehicles'] = chartVehicles;
+            chartVehicles.setOption({
+                ...getBaseOptions(),
+                xAxis: {
+                    type: 'value',
+                    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+                    axisLabel: { formatter: '{value}%' }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['Accident Exam', 'Amendment', 'Physical Conv.', 'Change of Ownership', 'Roadworthy', 'Registration'].reverse(),
+                    axisLabel: { interval: 0, rotate: 15, fontSize: 8 }
+                },
+                series: [{
+                    name: 'Access Rate',
+                    type: 'bar',
+                    data: [48.5, 30.2, 9.5, 1.8, 1.4, 0.7].reverse(),
+                    itemStyle: { color: '#10b981' },
+                    label: { show: true, position: 'right', formatter: '{c}%' }
+                }]
+            });
+
+            // ==========================================
+            // TAB 3 CHARTS: SATISFACTION & performance
+            // ==========================================
+            
+            // 9. Satisfaction Levels
+            const chartSatLevel = echarts.init(document.getElementById('chart-sat-level'));
+            chartInstances['satLevel'] = chartSatLevel;
+            chartSatLevel.setOption({
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+                legend: { show: true, textStyle: { color: '#94a3b8' }, bottom: 0 },
+                series: [{
+                    name: 'Satisfaction',
+                    type: 'pie',
+                    radius: ['45%', '70%'],
+                    itemStyle: { borderRadius: 8, borderColor: '#0d1b12', borderWidth: 2 },
+                    label: { show: true, position: 'outside', color: '#94a3b8', formatter: '{b}\n{c}%' },
+                    data: [
+                        { value: 57.4, name: 'Satisfied', itemStyle: { color: '#10b981' } },
+                        { value: 26.3, name: 'Very Satisfied', itemStyle: { color: '#06b6d4' } },
+                        { value: 10.5, name: 'Neutral', itemStyle: { color: '#f59e0b' } },
+                        { value: 4.3, name: 'Dissatisfied', itemStyle: { color: '#8b5cf6' } },
+                        { value: 1.5, name: 'Very Dissatisfied', itemStyle: { color: '#ef4444' } }
+                    ]
+                }]
+            });
+
+            // 10. Dissatisfaction Drivers
+            const chartDissatisfiers = echarts.init(document.getElementById('chart-sat-dissatisfiers'));
+            chartInstances['dissatisfiers'] = chartDissatisfiers;
+            chartDissatisfiers.setOption({
+                ...getBaseOptions(),
+                xAxis: { type: 'category', data: ['Delays', 'Staff Attitude', 'Overcharging'] },
+                series: [{
+                    name: 'Dissatisfaction Drivers',
+                    type: 'bar',
+                    barWidth: '40%',
+                    data: [
+                        { value: 79.9, itemStyle: { color: '#ef4444' } },
+                        { value: 13.5, itemStyle: { color: '#f59e0b' } },
+                        { value: 6.6, itemStyle: { color: '#8b5cf6' } }
+                    ],
+                    label: { show: true, position: 'top', formatter: '{c}%' }
+                }]
+            });
+
+            // 11. Satisfaction Paradox
+            const chartSatParadox = echarts.init(document.getElementById('chart-sat-paradox'));
+            chartInstances['satParadox'] = chartSatParadox;
+            chartSatParadox.setOption({
+                ...getBaseOptions(),
+                xAxis: { type: 'category', data: ['Premium (2-wks)', 'Regular (4-wks)', 'Prestige (Same day)'] },
+                yAxis: { type: 'value', min: 70, max: 95 },
+                series: [{
+                    name: 'Satisfaction Rate',
+                    type: 'bar',
+                    barWidth: '45%',
+                    data: [
+                        { value: 80.8, itemStyle: { color: '#ef4444' } },
+                        { value: 84.9, itemStyle: { color: '#f59e0b' } },
+                        { value: 87.9, itemStyle: { color: '#10b981' } }
+                    ],
+                    label: { show: true, position: 'top', formatter: '{c}%' }
+                }]
+            });
+
+            // 12. Quality Attribute Ratings
+            const chartSatRatings = echarts.init(document.getElementById('chart-sat-ratings'));
+            chartInstances['satRatings'] = chartSatRatings;
+            chartSatRatings.setOption({
+                ...getBaseOptions(),
+                xAxis: {
+                    type: 'value',
+                    max: 4.0,
+                    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['Office Env', 'Professionalism', 'Politeness', 'Work Attitude', 'Dressing']
+                },
+                series: [{
+                    name: 'Weighted Average',
+                    type: 'bar',
+                    data: [
+                        { value: 3.41, itemStyle: { color: '#f59e0b' } },
+                        { value: 3.45, itemStyle: { color: '#3b82f6' } },
+                        { value: 3.48, itemStyle: { color: '#8b5cf6' } },
+                        { value: 3.49, itemStyle: { color: '#06b6d4' } },
+                        { value: 3.53, itemStyle: { color: '#10b981' } }
+                    ],
+                    label: { show: true, position: 'right', formatter: '{c} / 4.0' }
+                }]
+            });
+
+            // 13. Time Spent
+            const chartSatTime = echarts.init(document.getElementById('chart-sat-time'));
+            chartInstances['satTime'] = chartSatTime;
+            chartSatTime.setOption({
+                ...getBaseOptions(),
+                grid: { left: '2%', right: '2%', bottom: '2%', containLabel: true },
+                xAxis: { type: 'category', data: ['<1 hr', '1-3 hrs', '3-6 hrs', '1+ days'], axisLabel: { fontSize: 8 } },
+                series: [{
+                    name: 'Share',
+                    type: 'bar',
+                    data: [
+                        { value: 32.2, itemStyle: { color: '#10b981' } },
+                        { value: 46.0, itemStyle: { color: '#06b6d4' } },
+                        { value: 12.7, itemStyle: { color: '#f59e0b' } },
+                        { value: 9.1, itemStyle: { color: '#ef4444' } }
+                    ],
+                    label: { show: true, position: 'top', formatter: '{c}%', fontSize: 8 }
+                }]
+            });
+
+            // 14. Visits Required
+            const chartSatVisits = echarts.init(document.getElementById('chart-sat-visits'));
+            chartInstances['satVisits'] = chartSatVisits;
+            chartSatVisits.setOption({
+                ...getBaseOptions(),
+                grid: { left: '2%', right: '2%', bottom: '2%', containLabel: true },
+                xAxis: { type: 'category', data: ['1 visit', '2 visits', '3+ visits'], axisLabel: { fontSize: 8 } },
+                series: [{
+                    name: 'Share',
+                    type: 'bar',
+                    data: [
+                        { value: 62.0, itemStyle: { color: '#10b981' } },
+                        { value: 27.9, itemStyle: { color: '#f59e0b' } },
+                        { value: 10.1, itemStyle: { color: '#ef4444' } }
+                    ],
+                    label: { show: true, position: 'top', formatter: '{c}%', fontSize: 8 }
+                }]
+            });
+
+            // 15. Recommendation Rate
+            const chartSatRecom = echarts.init(document.getElementById('chart-sat-recom'));
+            chartInstances['recommendation'] = chartSatRecom;
+            chartSatRecom.setOption({
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'item' },
+                legend: { show: true, textStyle: { color: '#94a3b8' }, bottom: 0 },
+                series: [{
+                    name: 'Willingness to Recommend',
+                    type: 'pie',
+                    radius: ['45%', '70%'],
+                    itemStyle: { borderRadius: 8, borderColor: '#0d1b12', borderWidth: 2 },
+                    label: { show: false },
+                    data: [
+                        { value: 89.7, name: 'Yes (Highly Recommended)', itemStyle: { color: '#10b981' } },
+                        { value: 6.5, name: 'Maybe / Unsure', itemStyle: { color: '#f59e0b' } },
+                        { value: 3.8, name: 'No', itemStyle: { color: '#ef4444' } }
+                    ]
+                }]
+            });
+
+            // Render all initial charts
+            setTimeout(resizeCharts, 100);
+        });
+    </script>
+</body>
+</html>
