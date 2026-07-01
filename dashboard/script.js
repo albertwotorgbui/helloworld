@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDark = document.body.classList.contains('dark-theme');
     let activeTab = 'overview';
     const chartInstances = {};
+    let activeVizDatabase = RAW_DATABASE;
 
     // --- DOM Elements ---
     const liveTimeEl = document.getElementById('live-time');
@@ -120,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'overview': { title: 'Overview Dashboard', desc: 'DVLA Ghana administrative registration and licence metrics aggregation portal.' },
             'drivers': { title: 'Drivers Licence Analytics', desc: 'Demographics, licence classifications, fee schedules and regulatory analysis.' },
             'vehicles': { title: 'Vehicle Registration Registry', desc: 'Breakdown of registered motor vehicles by fuel source, brand, and type.' },
+            'visualisation': { title: 'Advanced Data Visualisation', desc: 'Interact with demographic distributions, EV transitions, workload metrics, and licensing revenue statistics.' },
             'lab': { title: 'Big Data Lab & Map-Reduce', desc: 'Execute queries and inspect data processing pipelines in simulated memory environments.' },
             'efficiency': { title: 'System Efficiency & Performance Auditing', desc: 'Process cycle times, backlog queues, PFM audits, and structural improvement analytics.' },
             'reports': { title: 'Reports & Data Export Portal', desc: 'Compile official administrative audits, preview document summaries, and extract datasets as CSV/JSON.' },
@@ -392,8 +394,318 @@ document.addEventListener('DOMContentLoaded', () => {
                 }]
             });
         }
+        
+        // 4.9 Advanced Visualisation Panel Charts
+        initVisualisationCharts(activeVizDatabase);
     }
     initCharts();
+
+    // ==========================================
+    // 4.99 Advanced Visualisation Dashboard Logic
+    // ==========================================
+    const vizStatusFilter = document.getElementById('viz-status-filter');
+    
+    if (vizStatusFilter) {
+        vizStatusFilter.addEventListener('change', () => {
+            const status = vizStatusFilter.value;
+            if (status === 'all') {
+                activeVizDatabase = RAW_DATABASE;
+            } else {
+                activeVizDatabase = RAW_DATABASE.filter(r => r.status === status);
+            }
+            
+            // Dispose existing visualisation charts
+            const vizCharts = ['vizDemographics', 'vizEcological', 'vizRevenueShare', 'vizWorkload'];
+            vizCharts.forEach(c => {
+                if (chartInstances[c]) {
+                    chartInstances[c].dispose();
+                }
+            });
+            
+            initVisualisationCharts(activeVizDatabase);
+        });
+    }
+
+    // Toggle Buttons between Registry Ops and Survey CSSIS
+    const btnToggleOps = document.getElementById('btn-toggle-ops');
+    const btnToggleSurvey = document.getElementById('btn-toggle-survey');
+    const vizOpsPanel = document.getElementById('viz-ops-panel');
+    const vizSurveyPanel = document.getElementById('viz-survey-panel');
+
+    if (btnToggleOps && btnToggleSurvey) {
+        btnToggleOps.addEventListener('click', () => {
+            btnToggleOps.className = 'btn-primary';
+            btnToggleOps.style.background = '';
+            btnToggleOps.style.color = '';
+            btnToggleSurvey.className = '';
+            btnToggleSurvey.style.background = 'transparent';
+            btnToggleSurvey.style.color = 'var(--text-secondary)';
+            
+            vizOpsPanel.style.display = 'block';
+            vizSurveyPanel.style.display = 'none';
+            
+            // Re-render ops charts
+            setTimeout(() => {
+                const vizCharts = ['vizDemographics', 'vizEcological', 'vizRevenueShare', 'vizWorkload'];
+                vizCharts.forEach(c => {
+                    if (chartInstances[c]) {
+                        chartInstances[c].resize();
+                    }
+                });
+            }, 100);
+        });
+
+        btnToggleSurvey.addEventListener('click', () => {
+            btnToggleSurvey.className = 'btn-primary';
+            btnToggleSurvey.style.background = '';
+            btnToggleSurvey.style.color = '';
+            btnToggleOps.className = '';
+            btnToggleOps.style.background = 'transparent';
+            btnToggleOps.style.color = 'var(--text-secondary)';
+            
+            vizOpsPanel.style.display = 'none';
+            vizSurveyPanel.style.display = 'block';
+            
+            // Render survey charts
+            initSurveyCharts();
+        });
+    }
+
+    function initSurveyCharts() {
+        const theme = getChartThemeOptions();
+
+        // 1. Sources of Customer Dissatisfaction
+        if (document.getElementById('chart-survey-dissatisfaction')) {
+            const chart = echarts.init(document.getElementById('chart-survey-dissatisfaction'));
+            chartInstances['surveyDissatisfaction'] = chart;
+            chart.setOption({
+                ...theme,
+                tooltip: { ...theme.tooltip, trigger: 'item', formatter: '{b}: {c}%' },
+                legend: { ...theme.legend, show: true, bottom: 0 },
+                series: [{
+                    name: 'Dissatisfaction Drivers',
+                    type: 'pie',
+                    radius: ['45%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: { borderRadius: 8, borderColor: isDark ? '#050b07' : '#ffffff', borderWidth: 2 },
+                    label: { show: false },
+                    emphasis: { label: { show: true, fontSize: 12, fontWeight: 'bold' } },
+                    data: [
+                        { value: 79.9, name: 'Service Delays', itemStyle: { color: 'var(--accent)' } },
+                        { value: 13.5, name: 'Impolite Staff', itemStyle: { color: 'var(--primary)' } },
+                        { value: 6.6, name: 'Overcharging', itemStyle: { color: '#8b5cf6' } }
+                    ]
+                }]
+            });
+        }
+
+        // 2. Engagement Channels Bottleneck
+        if (document.getElementById('chart-survey-channels')) {
+            const chart = echarts.init(document.getElementById('chart-survey-channels'));
+            chartInstances['surveyChannels'] = chart;
+            chart.setOption({
+                ...theme,
+                tooltip: { ...theme.tooltip, trigger: 'axis', axisPointer: { type: 'shadow' } },
+                xAxis: { ...theme.xAxis, type: 'value', max: 100, axisLabel: { formatter: '{value}%' } },
+                yAxis: { ...theme.yAxis, type: 'category', data: ['Email', 'Social', 'Call Center', 'Online App', 'Website', 'Office Visits'] },
+                series: [{
+                    name: 'Usage Share',
+                    type: 'bar',
+                    data: [0.4, 1.8, 2.4, 2.4, 5.4, 87.7],
+                    itemStyle: { color: 'var(--primary)' },
+                    label: { show: true, position: 'right', formatter: '{c}%', color: isDark ? '#fff' : '#000' }
+                }]
+            });
+        }
+
+        // 3. Service Quality & Staff Ratings
+        if (document.getElementById('chart-survey-ratings')) {
+            const chart = echarts.init(document.getElementById('chart-survey-ratings'));
+            chartInstances['surveyRatings'] = chart;
+            chart.setOption({
+                ...theme,
+                tooltip: { ...theme.tooltip, trigger: 'axis', axisPointer: { type: 'shadow' } },
+                xAxis: { ...theme.xAxis, type: 'value', max: 100, axisLabel: { formatter: '{value}%' } },
+                yAxis: { ...theme.yAxis, type: 'category', data: ['Dressing', 'Work Attitude', 'Politeness', 'Professionalism', 'Office Env'] },
+                series: [{
+                    name: 'Good/Excellent Rating',
+                    type: 'bar',
+                    data: [97.5, 96.7, 97.3, 97.0, 95.0],
+                    itemStyle: { color: 'var(--primary)' },
+                    label: { show: true, position: 'right', formatter: '{c}%', color: isDark ? '#fff' : '#000' }
+                }]
+            });
+        }
+
+        // 4. The Premium Satisfaction Paradox
+        if (document.getElementById('chart-survey-paradox')) {
+            const chart = echarts.init(document.getElementById('chart-survey-paradox'));
+            chartInstances['surveyParadox'] = chart;
+            chart.setOption({
+                ...theme,
+                tooltip: { ...theme.tooltip, trigger: 'axis' },
+                xAxis: { ...theme.xAxis, type: 'category', data: ['Premium (2-wks)', 'Regular (4-wks)', 'Prestige (Same day)'] },
+                yAxis: { ...theme.yAxis, type: 'value', min: 70, max: 95, axisLabel: { formatter: '{value}%' } },
+                series: [{
+                    name: 'Satisfaction Rate',
+                    type: 'bar',
+                    data: [
+                        { value: 80.8, itemStyle: { color: 'var(--accent)' } },
+                        { value: 84.9, itemStyle: { color: 'var(--primary)' } },
+                        { value: 87.9, itemStyle: { color: '#10b981' } }
+                    ],
+                    label: { show: true, position: 'top', formatter: '{c}%', color: isDark ? '#fff' : '#000' }
+                }]
+            });
+        }
+    }
+
+    function initVisualisationCharts(db) {
+        const theme = getChartThemeOptions();
+        const dbSource = db || RAW_DATABASE;
+
+        // 1. Licence Applicant Demographics
+        if (document.getElementById('chart-viz-demographics')) {
+            const chart = echarts.init(document.getElementById('chart-viz-demographics'));
+            chartInstances['vizDemographics'] = chart;
+
+            const cohorts = {
+                '18-25': { Male: 0, Female: 0 },
+                '26-35': { Male: 0, Female: 0 },
+                '36-45': { Male: 0, Female: 0 },
+                '46-55': { Male: 0, Female: 0 },
+                '56+': { Male: 0, Female: 0 }
+            };
+
+            const drivers = dbSource.filter(r => r.type === 'Driver Licence');
+            drivers.forEach(d => {
+                const age = d.age || 30;
+                const gender = d.gender || 'Male';
+                let key = '36-45';
+                if (age <= 25) key = '18-25';
+                else if (age <= 35) key = '26-35';
+                else if (age <= 45) key = '36-45';
+                else if (age <= 55) key = '46-55';
+                else key = '56+';
+                
+                if (cohorts[key] && cohorts[key][gender] !== undefined) {
+                    cohorts[key][gender]++;
+                }
+            });
+
+            const keys = Object.keys(cohorts);
+            const maleData = keys.map(k => cohorts[k].Male);
+            const femaleData = keys.map(k => cohorts[k].Female);
+
+            chart.setOption({
+                ...theme,
+                legend: { ...theme.legend, show: true, data: ['Male', 'Female'] },
+                tooltip: { ...theme.tooltip, trigger: 'axis' },
+                xAxis: { ...theme.xAxis, type: 'category', data: keys },
+                yAxis: { ...theme.yAxis, type: 'value' },
+                series: [
+                    { name: 'Male', type: 'bar', data: maleData, itemStyle: { color: 'var(--primary)' } },
+                    { name: 'Female', type: 'bar', data: femaleData, itemStyle: { color: 'var(--accent)' } }
+                ]
+            });
+        }
+
+        // 2. Ecological Vehicles Transition Trend
+        if (document.getElementById('chart-viz-ecological')) {
+            const chart = echarts.init(document.getElementById('chart-viz-ecological'));
+            chartInstances['vizEcological'] = chart;
+
+            const years = [2021, 2022, 2023, 2024, 2025, 2026];
+            const evData = years.map(y => {
+                return dbSource.filter(r => r.year === y && r.type === 'Vehicle Registration' && r.fuelType === 'Electric').length;
+            });
+            const hybridData = years.map(y => {
+                return dbSource.filter(r => r.year === y && r.type === 'Vehicle Registration' && r.fuelType === 'Hybrid').length;
+            });
+
+            chart.setOption({
+                ...theme,
+                legend: { ...theme.legend, show: true, data: ['Electric (EV)', 'Hybrid'] },
+                tooltip: { ...theme.tooltip, trigger: 'axis' },
+                xAxis: { ...theme.xAxis, type: 'category', data: years.map(String) },
+                yAxis: { ...theme.yAxis, type: 'value' },
+                series: [
+                    {
+                        name: 'Electric (EV)',
+                        type: 'line',
+                        smooth: true,
+                        areaStyle: { opacity: 0.15 },
+                        data: evData,
+                        itemStyle: { color: 'var(--primary)' }
+                    },
+                    {
+                        name: 'Hybrid',
+                        type: 'line',
+                        smooth: true,
+                        areaStyle: { opacity: 0.1 },
+                        data: hybridData,
+                        itemStyle: { color: 'var(--accent)' }
+                    }
+                ]
+            });
+        }
+
+        // 3. Licensing Revenue by Classification
+        if (document.getElementById('chart-viz-revenue-share')) {
+            const chart = echarts.init(document.getElementById('chart-viz-revenue-share'));
+            chartInstances['vizRevenueShare'] = chart;
+
+            const classes = ['A', 'B', 'C', 'D', 'E', 'F'];
+            const revByClass = classes.map(c => {
+                const total = dbSource
+                    .filter(r => r.type === 'Driver Licence' && r.licenceClass === c && r.status === 'Approved')
+                    .reduce((sum, r) => sum + r.feePaid, 0);
+                return { name: `Class ${c}`, value: total };
+            });
+
+            chart.setOption({
+                ...theme,
+                tooltip: { ...theme.tooltip, trigger: 'item', formatter: '{b}: GHS {c} ({d}%)' },
+                legend: { ...theme.legend, show: true, bottom: 0 },
+                series: [{
+                    name: 'Revenue Share',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: { borderRadius: 8, borderColor: isDark ? '#050b07' : '#ffffff', borderWidth: 2 },
+                    label: { show: false },
+                    emphasis: { label: { show: true, fontSize: 12, fontWeight: 'bold' } },
+                    data: revByClass
+                }]
+            });
+        }
+
+        // 4. Regional Workload Distributions
+        if (document.getElementById('chart-viz-workload')) {
+            const chart = echarts.init(document.getElementById('chart-viz-workload'));
+            chartInstances['vizWorkload'] = chart;
+
+            const regions = ['Greater Accra', 'Ashanti', 'Western', 'Northern', 'Eastern', 'Volta', 'Central'];
+            const dlData = regions.map(reg => {
+                return dbSource.filter(r => r.region === reg && r.type === 'Driver Licence').length;
+            });
+            const vrData = regions.map(reg => {
+                return dbSource.filter(r => r.region === reg && r.type === 'Vehicle Registration').length;
+            });
+
+            chart.setOption({
+                ...theme,
+                legend: { ...theme.legend, show: true, data: ['Licences', 'Vehicles'] },
+                tooltip: { ...theme.tooltip, trigger: 'axis' },
+                xAxis: { ...theme.xAxis, type: 'category', data: regions.map(r => r.replace('Greater ', 'G. ')) },
+                yAxis: { ...theme.yAxis, type: 'value' },
+                series: [
+                    { name: 'Licences', type: 'bar', data: dlData, itemStyle: { color: 'var(--primary)' } },
+                    { name: 'Vehicles', type: 'bar', data: vrData, itemStyle: { color: 'var(--accent)' } }
+                ]
+            });
+        }
+    }
 
     // ==========================================
     // 5. DATA INGESTION: Real-Time Stream Simulation

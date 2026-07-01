@@ -47,6 +47,13 @@
                     </svg>
                     <span>Vehicle Registrations</span>
                 </div>
+                <div class="nav-item" data-tab="visualisation" id="nav-visualisation">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.003 9.003 0 1020.945 13H11V3.055z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                    </svg>
+                    <span>Visualisations</span>
+                </div>
                 <div class="nav-item" data-tab="lab" id="nav-lab">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
@@ -413,6 +420,185 @@
                                     <!-- Populated in script -->
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DATA VISUALISATION TAB -->
+            <!-- DATA VISUALISATION TAB -->
+            <div class="tab-panel" id="tab-visualisation">
+                <!-- Segment Controller to Toggle Datasets -->
+                <div class="dashboard-card" style="margin-bottom: 24px; padding: 12px 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                        <div class="card-title" style="margin-bottom: 0;">
+                            <h3>Visualisation Stream Selection</h3>
+                            <p>Toggle between administrative database registries and customer survey findings</p>
+                        </div>
+                        <div style="display: flex; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background-color: var(--card-bg-light);">
+                            <button id="btn-toggle-ops" class="btn-primary" style="border: none; border-radius: 0; padding: 8px 16px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s ease;">Operational Analytics</button>
+                            <button id="btn-toggle-survey" style="border: none; border-radius: 0; padding: 8px 16px; font-size: 0.8rem; background: transparent; color: var(--text-secondary); cursor: pointer; transition: all 0.3s ease;">CSSIS Customer Survey</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OPERATIONAL ANALYTICS SUB-PANEL -->
+                <div id="viz-ops-panel">
+                    <!-- Interactive Filter Controls -->
+                    <div class="dashboard-card" style="margin-bottom: 24px; padding: 18px 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                            <div class="card-title" style="margin-bottom: 0;">
+                                <h3>Interactive Visualization Controls</h3>
+                                <p>Scope the dataset represented in the advanced ECharts charts below</p>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <label style="font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">TRANSACTION STATUS:</label>
+                                <select id="viz-status-filter" class="query-input" style="padding: 8px 16px; font-size: 0.8rem; width: 180px;">
+                                    <option value="all">All Registrations</option>
+                                    <option value="Approved">Approved Only</option>
+                                    <option value="Pending">Pending Only</option>
+                                    <option value="Rejected">Rejected Only</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2x2 Grid of Advanced Charts -->
+                    <div class="dashboard-grid-2" style="margin-bottom: 24px;">
+                        <!-- Chart 1: Demographic Pyramid -->
+                        <div class="dashboard-card">
+                            <div class="card-title-wrap">
+                                <div class="card-title">
+                                    <h3>Licence Applicant Demographics</h3>
+                                    <p>Headcount breakdown by age cohorts and gender</p>
+                                </div>
+                            </div>
+                            <div class="chart-container" id="chart-viz-demographics" style="height: 320px;"></div>
+                        </div>
+
+                        <!-- Chart 2: EV Adoption and Fuel Mix Over Time -->
+                        <div class="dashboard-card">
+                            <div class="card-title-wrap">
+                                <div class="card-title">
+                                    <h3>Ecological Vehicles Transition Trend</h3>
+                                    <p>Annual evolution of EV and Hybrid registrations (2021-2026)</p>
+                                </div>
+                            </div>
+                            <div class="chart-container" id="chart-viz-ecological" style="height: 320px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid-2">
+                        <!-- Chart 3: Licensing Revenue by Classification -->
+                        <div class="dashboard-card">
+                            <div class="card-title-wrap">
+                                <div class="card-title">
+                                    <h3>Licensing Revenue by Classification</h3>
+                                    <p>Total fee revenue share collected across Licence Classes A-F</p>
+                                </div>
+                            </div>
+                            <div class="chart-container" id="chart-viz-revenue-share" style="height: 320px;"></div>
+                        </div>
+
+                        <!-- Chart 4: Regional Workload Distributions -->
+                        <div class="dashboard-card">
+                            <div class="card-title-wrap">
+                                <div class="card-title">
+                                    <h3>Regional Workload & Audit Capacity</h3>
+                                    <p>Volume distribution of licences vs vehicle registrations by region</p>
+                                </div>
+                            </div>
+                            <div class="chart-container" id="chart-viz-workload" style="height: 320px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSSIS CUSTOMER SURVEY SUB-PANEL -->
+                <div id="viz-survey-panel" style="display: none;">
+                    <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-bottom: 24px; align-items: start;">
+                        <!-- Left Column: Survey Charts -->
+                        <div style="display: flex; flex-direction: column; gap: 24px;">
+                            <div class="dashboard-grid-2" style="margin-bottom: 0;">
+                                <div class="dashboard-card">
+                                    <div class="card-title">
+                                        <h3>Sources of Customer Dissatisfaction</h3>
+                                        <p>Primary drivers cited by dissatisfied respondents (CSSIS 2025)</p>
+                                    </div>
+                                    <div class="chart-container" id="chart-survey-dissatisfaction" style="height: 280px;"></div>
+                                </div>
+                                <div class="dashboard-card">
+                                    <div class="card-title">
+                                        <h3>Engagement Channels Bottleneck</h3>
+                                        <p>Physical visits vs digital channels usage share</p>
+                                    </div>
+                                    <div class="chart-container" id="chart-survey-channels" style="height: 280px;"></div>
+                                </div>
+                            </div>
+                            <div class="dashboard-grid-2" style="margin-bottom: 0;">
+                                <div class="dashboard-card">
+                                    <div class="card-title">
+                                        <h3>Service Quality & Staff Ratings</h3>
+                                        <p>Percentage of positive ratings across core attributes</p>
+                                    </div>
+                                    <div class="chart-container" id="chart-survey-ratings" style="height: 280px;"></div>
+                                </div>
+                                <div class="dashboard-card">
+                                    <div class="card-title">
+                                        <h3>The Premium Satisfaction Paradox</h3>
+                                        <p>Satisfaction rates split by service type categories</p>
+                                    </div>
+                                    <div class="chart-container" id="chart-survey-paradox" style="height: 280px;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Unimagined Insights Cards -->
+                        <div class="dashboard-card" style="padding: 24px;">
+                            <div class="card-title-wrap" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
+                                <div class="card-title" style="margin-bottom: 0;">
+                                    <h3 style="color: var(--accent); display: flex; align-items: center; gap: 8px; margin: 0;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                        </svg>
+                                        CSSIS Strategic Insights
+                                    </h3>
+                                    <p style="font-size: 0.78rem; margin: 4px 0 0 0;">Non-obvious operational anomalies & research recommendations</p>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <!-- Insight 1 -->
+                                <div style="border-left: 3px solid var(--accent); padding-left: 12px;">
+                                    <h4 style="margin: 0 0 4px 0; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">1. The Premium Service Paradox (Value Leak)</h4>
+                                    <p style="margin: 0; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                                        Premium Service (40% of users) yields the <strong>lowest satisfaction rate (80.8%)</strong> compared to Regular (84.9%) and Prestige same-day (87.9%). Delays account for 79.9% of complaints, suggesting premium tiers fail to provide expected speed advantages.
+                                    </p>
+                                </div>
+                                
+                                <!-- Insight 2 -->
+                                <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+                                    <h4 style="margin: 0 0 4px 0; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">2. The Digital Adoption Bottleneck</h4>
+                                    <p style="margin: 0; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                                        An overwhelming <strong>87.7% of client engagements</strong> are physical visits, creating severe congestion. website/online channels show minimal patronage (&lt;5%), indicating that the digital system is underutilized due to trust or interface frictions rather than server responsiveness (rated 83% responsive).
+                                    </p>
+                                </div>
+
+                                <!-- Insight 3 -->
+                                <div style="border-left: 3px solid var(--primary); padding-left: 12px;">
+                                    <h4 style="margin: 0 0 4px 0; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">3. Goro Boys (Middlemen) Extortion Cycle</h4>
+                                    <p style="margin: 0; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                                        Persistent delays force desperate customers to use illicit middlemen. This leads directly to the 6.6% extortion/overcharging reports, showing that operational slowness directly drives corrupt third-party behaviors.
+                                    </p>
+                                </div>
+
+                                <!-- Insight 4 -->
+                                <div style="border-left: 3px solid var(--accent); padding-left: 12px;">
+                                    <h4 style="margin: 0 0 4px 0; font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">4. Card Durability &amp; Supply Audit Needed</h4>
+                                    <p style="margin: 0; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                                        Qualitative comments highlight that newly issued licenses are fading or cracking quickly, indicating a physical supply material deficiency. We recommend a procurement quality-assurance audit to reduce reissuance costs.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
